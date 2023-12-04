@@ -5,11 +5,14 @@ export default function Home() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     setError(null);
+    setResults(null);
     if (query.trim() !== '') {
       try {
+      setLoading(true);
       const data = await fetchBooks(query);
       setResults(data?.docs || []);
       if (!data || data.docs.length ===0 ) {
@@ -18,6 +21,8 @@ export default function Home() {
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('An error occurred while fetching data.')
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -43,8 +48,11 @@ export default function Home() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button onClick={handleSearch}>Search</button>
+          <button onClick={handleSearch} disabled={loading}>
+            {loading ? 'Searching for books...' : 'Search'}
+          </button>
         </div>
+        {loading && <p>Loading...</p>}
         {error && <p style={{color : 'red'}}>{error}</p>}
         {results && results.length > 0 ? (
           <ul>
@@ -53,7 +61,7 @@ export default function Home() {
             ))}
           </ul>
         ) : (
-          !error && <p>No Books found.</p>
+          !loading && !error && <p>No Books found.</p>
         )}
       </div>
     </main>
