@@ -1,11 +1,13 @@
 import React, { useState} from 'react'
 import fetchBooks from './api/openLibrary'
+import saveBookToFirestore from './_utils/saveToFirestore';
 
 export default function Home() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState('Plan to read');
 
   const handleSearch = async () => {
     setError(null);
@@ -26,6 +28,10 @@ export default function Home() {
       }
     }
   };
+
+  const handleSaveBook = (book) => {
+    saveBookToFirestore(book, selectedStatus);
+  }
 
   return (
     <main>
@@ -57,7 +63,20 @@ export default function Home() {
         {results && results.length > 0 ? (
           <ul>
             {results.map((book) => (
-              <li key={book.key}>{book.title}</li>
+              <li key={book.key}>{book.title}
+                <div>
+                  <select
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.target.value)}
+                  >
+                    <option value="Plan to read">Add to reading list</option>
+                    <option value="Favorite books">Add to Favorites</option>
+                    <option value="Already Read">Add to finished</option>
+                    <option value="Currently Reading">Currently Reading</option>
+                  </select>
+                  <button onClick={() => handleSaveBook(book)}>Save</button>
+                </div>
+              </li>
             ))}
           </ul>
         ) : (

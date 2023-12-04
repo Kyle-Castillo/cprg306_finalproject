@@ -11,7 +11,6 @@ export default function Home() {
         <div className='top-menu'>
           <button className='quick-menu-button'>Home</button>
           <button className='quick-menu-button'>Books</button>
-          <button className='quick-menu-button'>Search</button>
         </div>
       </div>
       <div className='main-body'>
