@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState} from 'react'
-import fetchBooks from './api/openLibrary'
-import saveBookToFirestore from './_utils/saveToFirestore';
+import { useRouter } from 'next/router'; 
+import fetchBooks from '../api/openLibrary'
+import saveBookToFirestore from '../_utils/saveToFirestore';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -10,6 +12,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState('Plan to read');
+  const router = useRouter();
 
   const handleSearch = async () => {
     setError(null);
