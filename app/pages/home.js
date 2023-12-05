@@ -2,8 +2,8 @@
 
 import React, { useState} from 'react'
 import { useRouter } from 'next/router'; 
-import fetchBooks from '../../api/openLibrary'
-import saveBookToFirestore from '../../_utils/saveToFirestore';
+import fetchBooks from '../api/openLibrary'
+import saveBookToFirestore from '../_utils/saveToFirestore';
 
 
 export default function Home() {
