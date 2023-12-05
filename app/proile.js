@@ -23,7 +23,7 @@ export default function Home() {
         </div>
         <div className='user-data'>
           <div className='books-read-list'>
-            <h1 className='books-read'>You've finished reading:</h1>
+            <h1 className='books-read'>You&apos;ve finished reading:</h1>
           </div>
           <div className='books-reading-list'>
             <h1 className='future-books'>You plan to read:</h1>
