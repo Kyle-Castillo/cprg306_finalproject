@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { useUserAuth } from "../_utils/auth-context";
+import { useUserAuth } from "../../_utils/auth-context";
 import { useRouter } from "next/router";
 
-export default function Page() {
+export default function LoginPage() {
 
 
 const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
