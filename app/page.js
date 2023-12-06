@@ -1,20 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { useUserAuth } from "../../_utils/auth-context";
-import { useRouter } from "next/router";
+import { useUserAuth } from "./_utils/auth-context";
 
 export default function LoginPage() {
 
 
 const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
 const [githubUserName, setGithubUserName] = useState('');
-const router = useRouter();
  
 const handleSignIn = async () => {
     if (githubUserName.trim() !== '') {
         await gitHubSignIn(githubUserName);
-        router.push('/home');
     } else {
         console.error('Github username is empty.');
     }

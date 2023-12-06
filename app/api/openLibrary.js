@@ -1,5 +1,4 @@
 import axios from "axios";
-import { query } from "express";
 
 const baseURL = 'https://openlibrary.org/search.json';
 
@@ -8,7 +7,7 @@ const fetchBooks = async (query) => {
         const response = await axios.get(baseURL, { params: {q : query} });
         return response.data;
     } catch (error) {
-        console.error('Error fetching sta from OpenLibrary API:', error);
+        console.error('Error fetching data from OpenLibrary API:', error);
         return null;
     }
 };
