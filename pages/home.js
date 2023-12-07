@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState} from 'react' 
-import fetchBooks from './api/openLibrary'
+import { useState } from 'react' 
+import fetchBooks from './api/openLibrary';
 import saveBookToFirestore from './_utils/saveToFirestore';
-import { useRouter } from "next/router";
+
 
 
 export default function Home() {
@@ -17,14 +17,18 @@ export default function Home() {
   const handleSearch = async () => {
     setError(null);
     setResults(null);
+
     if (query.trim() !== '') {
       try {
       setLoading(true);
       const data = await fetchBooks(query);
+      console.log('API Response:', data);
       setResults(data?.docs || []);
+
       if (!data || data.docs.length ===0 ) {
         setError('No books found!');
       }
+
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('An error occurred while fetching data.')
@@ -56,6 +60,7 @@ export default function Home() {
         <div>
           <input
             type='text'
+            id='book-search'
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />

@@ -12,14 +12,13 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log the error to an error reporting service
+    // Log the error or perform additional actions if needed
     console.error(error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      // Render a fallback UI
-      return <div>Something went wrong.</div>;
+      return <div>Something went wrong!</div>;
     }
 
     return this.props.children;
