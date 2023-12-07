@@ -39,7 +39,18 @@ export default function Home() {
   };
 
   const handleSaveBook = (book) => {
-    saveBookToFirestore(book, selectedStatus);
+    if (bookSaved(book)) {
+      // If book was laready saved, removes from firestore
+      saveBookToFirestore(book, selectedStatus, false);
+    } else {
+      // if book is not saved, add to firestore
+      saveBookToFirestore(book, selectedStatus);
+    }
+  };
+
+  // Checks if the book is already saved to firestore
+  const bookSaved = (book) => {
+    return results.some((savedBook) => savedBook.key === book.key);
   }
 
   return (
@@ -84,7 +95,7 @@ export default function Home() {
                     <option value="Already Read">Add to finished</option>
                     <option value="Currently Reading">Currently Reading</option>
                   </select>
-                  <button onClick={() => handleSaveBook(book)}>Save</button>
+                  <button onClick={() => handleSaveBook(book)}>{bookSaved(book) ? 'Remove' : 'Save'}</button>
                 </div>
               </li>
             ))}
