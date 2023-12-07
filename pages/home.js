@@ -38,15 +38,28 @@ export default function Home() {
     }
   };
 
-  const handleSaveBook = (book) => {
+  const handleSaveBook = async (book) => {
+    try {
+      setLoading(true);
+
+    
     if (bookSaved(book)) {
       // If book was already saved, removes from firestore
-      saveBookToFirestore(book, selectedStatus, false);
+      await saveBookToFirestore(book, selectedStatus, false);
     } else {
       // if book is not saved, add to firestore
-      saveBookToFirestore(book, selectedStatus);
+      await saveBookToFirestore(book, selectedStatus);
     }
-  };
+    const updatedResults = await fetchUpdatedBooks();
+    setResults(updatedResults);
+
+  } catch (error) {
+    console.error('Error saving/removing book:', error);
+    setError('An error occurred while saving/removing the book.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Checks if the book is already saved to firestore
   const bookSaved = (book) => {
@@ -95,7 +108,7 @@ export default function Home() {
                     <option value="Already Read">Add to finished</option>
                     <option value="Currently Reading">Currently Reading</option>
                   </select>
-                  <button onClick={() => handleSaveBook(book)}>{bookSaved(book) ? 'Remove' : 'Save'}</button>
+                  <button onClick={() => handleSaveBook(book)}>{loading ? 'Processing...' : (bookSaved(book) ? 'Remove' : 'Save')}</button>
                 </div>
               </li>
             ))}
