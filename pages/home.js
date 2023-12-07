@@ -40,7 +40,7 @@ export default function Home() {
 
   const handleSaveBook = (book) => {
     if (bookSaved(book)) {
-      // If book was laready saved, removes from firestore
+      // If book was already saved, removes from firestore
       saveBookToFirestore(book, selectedStatus, false);
     } else {
       // if book is not saved, add to firestore
