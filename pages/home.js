@@ -2,6 +2,7 @@
 
 import { useState } from 'react' 
 import fetchBooks from './api/openLibrary';
+import { useUserAuth } from '@/_utils/auth-context';
 import saveBookToFirestore from '@/_utils/saveToFirestore';
 
 
@@ -38,20 +39,35 @@ export default function Home() {
     }
   };
 
-  const handleSaveBook = async (book) => {
+  const fetchUpdatedBooks = async () => {
+    try {
+      const data = await fetchBooks(query);
+      setResults(data?.docs || []);
+
+      if (!data || data.docs.length === 0) {
+        setError('No books found!');
+      }
+    } catch (error) {
+      console.error('Error fetching updated books:', error);
+      setError('An error occurred while fetching updated books.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSaveBook = (book) => {
     try {
       setLoading(true);
 
-    
     if (bookSaved(book)) {
       // If book was already saved, removes from firestore
-      await saveBookToFirestore(book, selectedStatus, false);
+     saveBookToFirestore(book, selectedStatus, false);
+     fetchUpdatedBooks();
     } else {
       // if book is not saved, add to firestore
-      await saveBookToFirestore(book, selectedStatus);
+     saveBookToFirestore(book, selectedStatus);
+     fetchUpdatedBooks();
     }
-    const updatedResults = await fetchUpdatedBooks();
-    setResults(updatedResults);
 
   } catch (error) {
     console.error('Error saving/removing book:', error);
