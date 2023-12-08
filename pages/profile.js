@@ -46,10 +46,10 @@ export default function Profile() {
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        setBooksRead(userData.booksRead || []);
-        setFavoriteBooks(userData.favoriteBooks || []);
-        setCurrentlyReading(userData.currentlyReading || []);
-        setPlanToRead(userData.planToRead || []);
+        setBooksRead(userData['Already Read'] || []);
+        setFavoriteBooks(userData['Favorite Books'] || []);
+        setCurrentlyReading(userData['Currently Reading'] || []);
+        setPlanToRead(userData['Plan To Read'] || []);
       }
     } catch (error) {
       console.error('Error fetching user data:', error.message);
