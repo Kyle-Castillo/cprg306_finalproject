@@ -43,7 +43,7 @@ export default function Profile() {
       // Fetch user document from Firestore
       const userDocRef = doc(db, 'users', userId);
       const userDoc = await getDoc(userDocRef);
-  
+
       if (userDoc.exists()) {
         const userData = userDoc.data();
         setBooksRead(userData.booksRead || []);
@@ -56,8 +56,10 @@ export default function Profile() {
     }
   };
 
-
-
+  // Helper function to get the total number of books
+  const getTotalBooksCount = () => {
+    return booksRead.length + favoriteBooks.length + currentlyReading.length + planToRead.length;
+  };
 
   return (
     <main>
@@ -75,13 +77,14 @@ export default function Profile() {
           <p className='user-books-read'>Books read: {booksRead.length}</p>
           <p className='user-books-list'>Books in Favorites: {favoriteBooks.length}</p>
           <p className='user-books-current'>Currently reading: {currentlyReading.length}</p>
+          <p className='user-total-books'>Total books: {getTotalBooksCount()}</p>
         </div>
         <div className='user-data'>
           <div className='books-read-list'>
             <h1 className='books-read'>You&apos;ve finished reading:</h1>
             <ul>
               {booksRead.map((book, index) => (
-                <li key={index}>{book}</li>
+                <li key={index}>{book.title} by {book.author_name}</li>
               ))}
             </ul>
           </div>
@@ -89,7 +92,7 @@ export default function Profile() {
             <h1 className='future-books'>You plan to read:</h1>
             <ul>
               {planToRead.map((book, index) => (
-                <li key={index}>{book}</li>
+                <li key={index}>{book.title} by {book.author_name}</li>
               ))}
             </ul>
           </div>
@@ -97,5 +100,5 @@ export default function Profile() {
         </div>
       </div>
     </main>
-  )
+  );
 }
