@@ -38,42 +38,25 @@ export default function Home() {
 
     if (query.trim() !== '') {
       try {
-      setLoading(true);
-      const data = await fetchBooks(query);
-      console.log('API Response:', data);
-      setResults(data?.docs || []);
+        setLoading(true);
+        const data = await fetchBooks(query);
+        console.log('API Response:', data);
+        setResults(data?.docs || []);
 
-      if (!data || data.docs.length ===0 ) {
-        setError('No books found!');
-      } else {
-        // Call the function to import books to Firestore
-        importBooksToFirestore(data.docs);
-      }
+        if (!data || data.docs.length === 0) {
+          setError('No books found!');
+        } else {
+          // Update saved books state
+          setSavedBooks(data.docs);
+          // Call the function to import books to Firestore
+          importBooksToFirestore(data.docs);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('An error occurred while fetching data.')
+        setError('An error occurred while fetching data.');
       } finally {
         setLoading(false);
       }
-    }
-  };
-
-  const fetchUpdatedBooks = async () => {
-    try {
-      const data = await fetchBooks(query);
-      setResults(data?.docs || []);
-
-      if (!data || data.docs.length === 0) {
-        setError('No books found!');
-      } else {
-        // Update saved books state
-        setSavedBooks(data.docs);
-      }
-    } catch (error) {
-      console.error('Error fetching updated books:', error);
-      setError('An error occurred while fetching updated books.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -81,15 +64,17 @@ export default function Home() {
     try {
       setLoading(true);
 
+      const updatedBook = { ...book, status: selectedStatus };
+
       if (bookSaved(book)) {
-        // If book was already saved, remove from firestore
-        await saveBookToFirestore(book, selectedStatus, false);
+        // If the book was already saved, remove from firestore
+        await saveBookToFirestore(updatedBook, selectedStatus, false);
       } else {
-        // If book is not saved, add to firestore
-        await saveBookToFirestore(book, selectedStatus);
+        // If the book is not saved, add to firestore
+        await saveBookToFirestore(updatedBook, selectedStatus);
       }
 
-      // Fetch updated books and update the saved books state
+      // Fetch updated books and update the results state
       await fetchUpdatedBooks();
     } catch (error) {
       console.error('Error saving/removing book:', error);
@@ -133,27 +118,27 @@ export default function Home() {
         {loading && <p>Loading...</p>}
         {error && <p style={{color : 'red'}}>{error}</p>}
         {results && results.length > 0 ? (
-          <ul>
-            {results.map((book) => (
-              <li key={book.key}>{book.title}
-                <div>
-                  <select
-                    value={selectedStatus}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                  >
-                    <option value="Plan to read">Add to reading list</option>
-                    <option value="Favorite books">Add to Favorites</option>
-                    <option value="Already Read">Add to finished</option>
-                    <option value="Currently Reading">Currently Reading</option>
-                  </select>
-                  <button onClick={() => handleSaveBook(book)}>{loading ? 'Processing...' : (bookSaved(book) ? 'Remove' : 'Save')}</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          !loading && !error && <p>No Books found.</p>
-        )}
+        <ul>
+          {results.map((book) => (
+            <li key={book.key}>{book.title}
+                <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+              >
+                <option value="Plan to read">Add to reading list</option>
+                <option value="Favorite books">Add to Favorites</option>
+                <option value="Already Read">Add to finished</option>
+                <option value="Currently Reading">Currently Reading</option>
+              </select>
+              <button onClick={() => handleSaveBook(book)}>
+                {loading ? 'Processing...' : bookSaved(book) ? 'Remove' : 'Save'}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        !loading && !error && <p>No Books found.</p>
+      )}
       </div>
     </main>
   )
