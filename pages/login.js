@@ -27,6 +27,8 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password);
 
       console.log('User logged in successfully!');
+      const user = auth.currentUser;
+      console.log('User ID:', user.uid);
       
       // Redirect to the home page after successful login
       router.push('/home');

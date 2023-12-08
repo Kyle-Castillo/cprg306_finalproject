@@ -2,8 +2,9 @@
 
 import { useState } from 'react' 
 import fetchBooks from './api/openLibrary';
-import { useUserAuth } from '@/_utils/auth-context';
 import saveBookToFirestore from '@/_utils/saveToFirestore';
+import { onAuthStateChanged, auth } from '@/_utils/firebase';
+import { useEffect } from 'react';
 
 
 
@@ -13,6 +14,20 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState('Plan to read');
+
+  // useEffect for handling authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('User ID:', user.uid);
+      } else {
+        console.log('User signed out');
+      }
+    });
+
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
 
   const handleSearch = async () => {
