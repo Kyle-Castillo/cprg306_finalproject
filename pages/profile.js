@@ -4,10 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged, auth } from '@/_utils/firebase';
 import firestore from "@/_utils/firebase";
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from "@/_utils/firebase";
 
-export default function Home() {
+export default function Profile() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [booksRead, setBooksRead] = useState([]);
@@ -18,13 +16,18 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = await onAuthStateChanged(auth);
-        setUser(user);
+        // Use onAuthStateChanged to listen for changes in user authentication state
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setUser(user);
 
-        if (user) {
-          // Fetch user data from Firestore
-          fetchUserData(user.uid);
-        }
+          if (user) {
+            // Fetch user data from Firestore
+            fetchUserData(user.uid);
+          }
+        });
+
+        // Cleanup the subscription when the component unmounts
+        return () => unsubscribe();
       } catch (error) {
         console.error('Error in onAuthStateChanged:', error.message);
       }
@@ -50,6 +53,7 @@ export default function Home() {
       console.error('Error fetching user data:', error.message);
     }
   };
+
 
 
 
