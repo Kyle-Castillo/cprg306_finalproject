@@ -31,6 +31,25 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
+  const fetchUpdatedBooks = async () => {
+    try {
+      const data = await fetchBooks(query);
+      setResults(data?.docs || []);
+
+      if (!data || data.docs.length === 0) {
+        setError('No books found!');
+      } else {
+        // Update saved books state
+        setSavedBooks(data.docs);
+      }
+    } catch (error) {
+      console.error('Error fetching updated books:', error);
+      setError('An error occurred while fetching updated books.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const handleSearch = async () => {
     setError(null);
