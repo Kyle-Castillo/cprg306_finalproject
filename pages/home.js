@@ -15,6 +15,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState('Plan to read');
+  const [savedBooks, setSavedBooks] = useState([]);
 
   // useEffect for handling authentication state changes
   useEffect(() => {
@@ -64,6 +65,9 @@ export default function Home() {
 
       if (!data || data.docs.length === 0) {
         setError('No books found!');
+      } else {
+        // Update saved books state
+        setSavedBooks(data.docs);
       }
     } catch (error) {
       console.error('Error fetching updated books:', error);
@@ -73,32 +77,32 @@ export default function Home() {
     }
   };
 
-  const handleSaveBook = (book) => {
+  const handleSaveBook = async (book) => {
     try {
       setLoading(true);
 
-    if (bookSaved(book)) {
-      // If book was already saved, removes from firestore
-     saveBookToFirestore(book, selectedStatus, false);
-     fetchUpdatedBooks();
-    } else {
-      // if book is not saved, add to firestore
-     saveBookToFirestore(book, selectedStatus);
-     fetchUpdatedBooks();
+      if (bookSaved(book)) {
+        // If book was already saved, remove from firestore
+        await saveBookToFirestore(book, selectedStatus, false);
+      } else {
+        // If book is not saved, add to firestore
+        await saveBookToFirestore(book, selectedStatus);
+      }
+
+      // Fetch updated books and update the saved books state
+      await fetchUpdatedBooks();
+    } catch (error) {
+      console.error('Error saving/removing book:', error);
+      setError('An error occurred while saving/removing the book.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-  } catch (error) {
-    console.error('Error saving/removing book:', error);
-    setError('An error occurred while saving/removing the book.');
-  } finally {
-    setLoading(false);
-  }
-};
-
-  // Checks if the book is already saved to firestore
+  // Check if the book is already saved to firestore
   const bookSaved = (book) => {
-    return results.some((savedBook) => savedBook.key === book.key);
-  }
+    return savedBooks.some((savedBook) => savedBook.key === book.key);
+  };
 
   return (
     <main>
