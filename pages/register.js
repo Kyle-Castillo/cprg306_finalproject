@@ -41,15 +41,15 @@ const Register = () => {
     <div className='centered-container'> 
       <h2 className=' text-2xl'>Register</h2>
       <label className=' text-xl'>Email:</label>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className=' pb-4'/>
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className=' m-2.5' />
       <label className=' text-xl'>Password:</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className=' pb-4' />
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className=' m-2.5' />
       <label className=' text-xl'>Confirm Password:</label>
       <input
         type="password"
         value={passwordConfirmation}
         onChange={(e) => setPasswordConfirmation(e.target.value)}
-        className=' pb-4'
+        className=' m-2.5' 
       />
       <button onClick={handleRegister} className=" bg-blue-500 p-4 rounded-xl text-xl">Register</button>
 

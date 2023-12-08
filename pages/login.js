@@ -47,9 +47,9 @@ const Login = () => {
       <div className='centered-container'>
         <h2 className=' text-2xl'>Login</h2>
         <label className=' text-xl'>Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className=' pb-4' />
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className=' m-2.5' />
         <label className=' text-xl'>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className=' pb-4' />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className=' m-2.5' />
         <button onClick={handleLogin} className=" bg-blue-500 p-4 rounded-xl text-xl ">Login</button>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
