@@ -1,13 +1,12 @@
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { db,auth } from './firebase';
+import { db, auth } from './firebase';
 
 const saveBookToFirestore = async (book, status, add = true) => {
   try {
     const user = auth.currentUser;
 
     if (!user) {
-      console.error('User not authenticated.');
-      return;
+      throw new Error('User not authenticated.');
     }
 
     const userId = user.uid;
@@ -31,10 +30,10 @@ const saveBookToFirestore = async (book, status, add = true) => {
       await setDoc(userDocRef, { savedBooks }, { merge: true });
       console.log('User Document updated successfully.');
     } else {
-      console.error('User Document not found.');
+      throw new Error('User Document not found.');
     }
   } catch (error) {
-    console.error('Error saving/removing book:', error);
+    console.error('Error saving/removing book:', error.message);
   }
 };
 
