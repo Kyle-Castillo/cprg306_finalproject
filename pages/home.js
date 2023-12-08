@@ -130,7 +130,7 @@ export default function Home() {
         </div>
         <div className="top-menu flex space-x-4">
           <button
-            className="quick-menu-button border-2 border-black bg-brown h-full w-full text-lg"
+            className="quick-menu-button border-x border-black bg-brown h-full w-full text-lg"
             onClick={goToProfile}
           >
             Profile
