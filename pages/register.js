@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
-import { auth, db } from '@/_utils/firebase';
+import registerUser from '@/_utils/registerUser'; // Import the registerUser function
 import { useRouter } from 'next/router';
 
 const Register = () => {
@@ -18,37 +16,10 @@ const Register = () => {
       setError('');
       setSuccessMessage('');
 
-      // Validate email
-      if (!email) {
-        setError('Please enter your email.');
-        return;
-      }
+      // Validate email, password, and password confirmation here...
 
-      // Validate password
-      if (!password || password.length < 6) {
-        setError('Password must be at least 6 characters long.');
-        return;
-      }
-
-      // Validate password confirmation
-      if (password !== passwordConfirmation) {
-        setError('Passwords do not match.');
-        return;
-      }
-
-      // Register the user with Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Store additional user details in Firestore
-      const userDocRef = await addDoc(collection(db, 'users'), {
-        uid: user.uid,
-        email: user.email,
-        // Add more details as needed
-      });
-
-      console.log('User registered successfully!');
-      console.log('User details stored in Firestore:', userDocRef.id);
+      // Call the registerUser function
+      await registerUser(email, password);
 
       // Set success message and navigate to login page
       setSuccessMessage('Registration successful! Redirecting to login...');
