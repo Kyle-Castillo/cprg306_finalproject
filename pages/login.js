@@ -39,14 +39,17 @@ const Login = () => {
   };
 
   return (
-    <main>
-      <div>
-        <h2>Login</h2>
-        <label>Email:</label>
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <header style={{ padding: '1rem', backgroundColor: "brown" }}>
+        <h2 className=" font-black">Bookworm</h2>
+      </header>
+      <div className='centered-container'>
+        <h2 className=' text-2xl'>Login</h2>
+        <label className=' text-x1'>Email:</label>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <label>Password:</label>
+        <label className=' text-xl'>Password:</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleLogin} className=" bg-blue-500 p-4 rounded-xl text-xl ">Login</button>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <p>

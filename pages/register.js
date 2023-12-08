@@ -33,23 +33,28 @@ const Register = () => {
   };
 
   return (
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <header style={{ padding: '1rem', backgroundColor: "brown" }}>
+        <h2 className=" font-black">Bookworm</h2>
+      </header>
     <div>
-      <h2>Register</h2>
-      <label>Email:</label>
+      <h2 className=' text-2xl'>Register</h2>
+      <label className=' text-x1'>Email:</label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <label>Password:</label>
+      <label className=' text-x1'>Password:</label>
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <label>Confirm Password:</label>
+      <label className=' text-x1'>Confirm Password:</label>
       <input
         type="password"
         value={passwordConfirmation}
         onChange={(e) => setPasswordConfirmation(e.target.value)}
       />
-      <button onClick={handleRegister}>Register</button>
+      <button onClick={handleRegister} className=" bg-blue-500 p-4 rounded-xl text-xl ">Register</button>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
     </div>
+  </main>
   );
 };
 
