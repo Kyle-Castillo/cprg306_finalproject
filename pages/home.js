@@ -123,7 +123,7 @@ export default function Home() {
     <main>
     <div className="top-bar flex justify-between items-center p-4" style={{backgroundColor: 'brown'}}>
       <div className="logo-text">
-        <h1 className="logo-text">Bookworm</h1>
+        <h2 className="logo-text font-black">Bookworm</h2>
       </div>
       <div className="top-menu flex space-x-4">
         <button
