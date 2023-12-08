@@ -1,9 +1,8 @@
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { db } from './firebase';
+import { db,auth } from './firebase';
 
 const saveBookToFirestore = async (book, status, add = true) => {
   try {
-    const auth = getAuth();
     const user = auth.currentUser;
 
     if (!user) {
