@@ -1,7 +1,9 @@
+// SaveBookToFirestore.js
+
 import { doc, setDoc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db, auth } from './firebase';
 
-const saveBookToFirestore = async (book, status, add = true, setSavedBooks) => {
+const saveBookToFirestore = async (book, setSavedBooks) => {
   try {
     const user = auth.currentUser;
 
@@ -16,48 +18,30 @@ const saveBookToFirestore = async (book, status, add = true, setSavedBooks) => {
     const userDoc = await getDoc(userDocRef);
 
     if (userDoc.exists()) {
-      const savedBooks = userDoc.data().savedBooks || [];
-      let updatedStatus;
+      const { savedBooks, favoriteBooks, currentlyReading, booksRead, planToRead } = userDoc.data();
 
-      switch (status) {
-        case 'Plan to read':
-          updatedStatus = 'planToRead';
-          break;
-        case 'Favorite books':
-          updatedStatus = 'favoriteBooks';
-          break;
-        case 'Already Read':
-          updatedStatus = 'booksRead';
-          break;
-        case 'Currently Reading':
-          updatedStatus = 'currentlyReading';
-          break;
-        default:
-          updatedStatus = status;
-      }
+      const updatedStatus = book.status || 'savedBooks';
 
-      if (add) {
-        savedBooks.push({ ...book, status: updatedStatus });
+      if (updatedStatus === 'savedBooks') {
+        // If the status is 'savedBooks', add the book to the savedBooks array
+        await setDoc(userDocRef, { savedBooks: arrayUnion(book) }, { merge: true });
       } else {
-        const indexToRemove = savedBooks.findIndex(
-          (savedBook) => savedBook.key === book.key
-        );
-        if (indexToRemove !== -1) {
-          savedBooks.splice(indexToRemove, 1);
-        }
+        // If the status is one of the specific categories, add the book to that category
+        await setDoc(userDocRef, {
+          [updatedStatus]: arrayUnion(book),
+          savedBooks: arrayUnion(book),
+        }, { merge: true });
       }
 
       // Update the state with the new savedBooks array
       setSavedBooks(savedBooks);
 
-      // Update Firestore document
-      await setDoc(userDocRef, { savedBooks }, { merge: true });
       console.log('User Document updated successfully.');
     } else {
       throw new Error('User Document not found.');
     }
   } catch (error) {
-    console.error('Error saving/removing book:', error.message);
+    console.error('Error saving book:', error.message);
   }
 };
 

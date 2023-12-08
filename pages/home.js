@@ -91,14 +91,14 @@ export default function Home() {
     try {
       setLoading(true);
   
-      const updatedBook = { ...book, status: selectedStatus };
+      const updatedBook = { ...book, status: selectedStatus || 'savedBooks' };
   
       if (bookSaved(book)) {
         // If the book was already saved, remove it from Firestore
-        await saveBookToFirestore(updatedBook, selectedStatus, false, setSavedBooks);
+        await saveBookToFirestore(updatedBook, setSavedBooks);
       } else {
         // If the book is not saved, add it to Firestore
-        await saveBookToFirestore(updatedBook, selectedStatus, true, setSavedBooks);
+        await saveBookToFirestore(updatedBook, setSavedBooks);
       }
   
       // Fetch updated books and update the results state
