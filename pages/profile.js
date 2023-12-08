@@ -49,7 +49,7 @@ export default function Home() {
           <h1 className='logo-text'>Bookworm</h1>
         </div>
         <div className='top-menu'>
-          <button className='quick-menu-button' onClick={() => router.push('/home.js')}>Home</button>
+          <button className='quick-menu-button' onClick={() => router.push('/home')}>Home</button>
         </div>
       </div>
       <div className='main-body'>
