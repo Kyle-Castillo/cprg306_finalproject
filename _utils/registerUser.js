@@ -1,6 +1,8 @@
 // registerUser.js
 import { doc, setDoc } from 'firebase/firestore';
 import { db, auth } from './firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 const registerUser = async (email, password) => {
   try {
