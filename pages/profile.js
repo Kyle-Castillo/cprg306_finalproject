@@ -47,9 +47,9 @@ export default function Profile() {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         setBooksRead(userData['Already Read'] || []);
-        setFavoriteBooks(userData['Favorite Books'] || []);
+        setFavoriteBooks(userData['Favorite books'] || []);
         setCurrentlyReading(userData['Currently Reading'] || []);
-        setPlanToRead(userData['Plan To Read'] || []);
+        setPlanToRead(userData['Plan to read'] || []);
       }
     } catch (error) {
       console.error('Error fetching user data:', error.message);
