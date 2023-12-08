@@ -1,55 +1,56 @@
-// pages/login.js
-"use client";
+// Login.js
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useUserAuth } from "@/_utils/auth-context";
+import Link from 'next/link';
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/_utils/firebase'
 
-const LoginPage = () => {
-  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth() || {};
-  const [githubUserName, setGithubUserName] = useState('');
-  const router = useRouter()
- 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    if (githubUserName.trim() !== '') {
-      await gitHubSignIn(githubUserName);
-      router.push('/home');
-    } else {
-      console.error('GitHub username is empty.');
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  const handleLogin = async () => {
+    try {
+      // Clear previous errors
+      setError(null);
+
+      // Validate email and password
+      if (!email || !password) {
+        setError('Please enter both email and password.');
+        return;
+      }
+
+      // Sign in the user with Firebase Authentication
+      await signInWithEmailAndPassword(auth, email, password);
+
+      console.log('User logged in successfully!');
+    } catch (error) {
+      console.error('Error logging in:', error.message);
+      setError('Invalid email or password. Please try again.');
     }
   };
 
-  const handleSignOut = () => {
-    firebaseSignOut();
-  }
-
   return (
     <main>
-      <div>
-        {user ? (
-          <>
-            <p>User: {user.displayName}</p>
-            <button onClick={handleSignOut}>Sign Out</button>
-          </>
-        ) : (
-          <form onSubmit={handleSignIn}>
-            <label>
-              GitHub Username:
-              <input
-                type="text"
-                value={githubUserName}
-                onChange={(e) => setGithubUserName(e.target.value)}
-              />
-            </label>
-            <button type="submit">
-              Sign In with GitHub
-            </button>
-          </form>
-        )}
-      </div>
+    <div>
+      <h2>Login</h2>
+      <label>Email:</label>
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <label>Password:</label>
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <button onClick={handleLogin}>Login</button>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <p>
+        Don't have an account?{' '}
+        <Link href="/register">
+          <a>Register here</a>
+        </Link>
+      </p>
+    </div>
     </main>
   );
 };
 
-export default LoginPage;
+export default Login;
