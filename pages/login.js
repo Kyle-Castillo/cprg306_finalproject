@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/_utils/firebase';
 import { useRouter } from 'next/router';
+import '../styles/globals.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import registerUser from '@/_utils/registerUser'; // Import the registerUser function
 import { useRouter } from 'next/router';
+import '../styles/globals.css';
 
 const Register = () => {
   const [email, setEmail] = useState('');

@@ -6,6 +6,7 @@ import saveBookToFirestore from "@/_utils/saveToFirestore";
 import importBooksToFirestore from "@/_utils/importBooksToFirestore";
 import { onAuthStateChanged, auth } from "@/_utils/firebase";
 import { useRouter } from "next/router";
+import '../styles/globals.css';
 
 export default function Home() {
   const [query, setQuery] = useState("");

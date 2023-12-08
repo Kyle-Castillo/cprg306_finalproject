@@ -6,6 +6,7 @@ import { onAuthStateChanged } from '@/_utils/firebase';
 import firestore from "@/_utils/firebase";
 import { collection, getDocs, doc, getDoc, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db, auth } from '@/_utils/firebase';
+import '../styles/globals.css';
 
 export default function Profile() {
   const router = useRouter();
