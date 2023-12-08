@@ -5,9 +5,9 @@ import { initializeApp } from 'firebase/app';
 import firestore from '@/_utils/firebase';
 
 
-
+const app = initializeApp(firestore);
 function MyApp({ Component, pageProps }) {
-  const app = initializeApp(firestore);
+
   return (
     <Layout>
     <ErrorBoundary>
