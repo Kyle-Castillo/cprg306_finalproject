@@ -81,12 +81,12 @@ export default function Home() {
   const handleSaveBook = async (book) => {
     try {
       setLoading(true);
-
+  
       const updatedBook = { ...book, status: selectedStatus };
-
+  
       // Check if the book is already saved
       const isBookSaved = bookSaved(updatedBook);
-
+  
       if (isBookSaved) {
         // If book was already saved, remove from firestore
         await saveBookToFirestore(updatedBook, selectedStatus, false);
@@ -94,7 +94,7 @@ export default function Home() {
         // If book is not saved, add to firestore
         await saveBookToFirestore(updatedBook, selectedStatus);
       }
-
+  
       // Fetch updated books and update the results state
       await fetchUpdatedBooks();
     } catch (error) {
