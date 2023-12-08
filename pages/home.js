@@ -5,6 +5,7 @@ import fetchBooks from './api/openLibrary';
 import saveBookToFirestore from '@/_utils/saveToFirestore';
 import importBooksToFirestore from '@/_utils/importBooksToFirestore';
 import { onAuthStateChanged, auth } from '@/_utils/firebase';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -13,6 +14,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState('Plan to read');
   const [savedBooks, setSavedBooks] = useState([]);
+  const router = useRouter();
+
+    // Function to navigate to the profile page
+    const goToProfile = () => {
+      // Use the push method to navigate to the profile page
+      router.push('/profile');
+    };
 
   // useEffect for handling authentication state changes
   useEffect(() => {
@@ -116,9 +124,9 @@ export default function Home() {
           <h1 className='logo-text'>Bookworm</h1>
         </div>
         <div className='top-menu'>
-          <button className='quick-menu-button'>Home</button>
-          <button className='quick-menu-button'>Books</button>
-          <button className='quick-menu-button'>Search</button>
+          <button className='quick-menu-button' onClick={goToProfile}>
+            Profile
+          </button>
         </div>
       </div>
       <div className='main-body'>
