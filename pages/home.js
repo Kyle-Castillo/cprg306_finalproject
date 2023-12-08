@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from 'react' 
+import { useState, useEffect } from 'react';
 import fetchBooks from './api/openLibrary';
 import saveBookToFirestore from '@/_utils/saveToFirestore';
 import importBooksToFirestore from '@/_utils/importBooksToFirestore';
 import { onAuthStateChanged, auth } from '@/_utils/firebase';
-import { useEffect } from 'react';
-
-
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -50,7 +47,6 @@ export default function Home() {
     }
   };
 
-
   const handleSearch = async () => {
     setError(null);
     setResults(null);
@@ -65,8 +61,6 @@ export default function Home() {
         if (!data || data.docs.length === 0) {
           setError('No books found!');
         } else {
-          // Update saved books state
-          setSavedBooks(data.docs);
           // Call the function to import books to Firestore
           importBooksToFirestore(data.docs);
         }
@@ -85,11 +79,14 @@ export default function Home() {
 
       const updatedBook = { ...book, status: selectedStatus };
 
-      if (bookSaved(book)) {
-        // If the book was already saved, remove from firestore
+      // Check if the book is already saved
+      const isBookSaved = bookSaved(updatedBook);
+
+      if (isBookSaved) {
+        // If book was already saved, remove from firestore
         await saveBookToFirestore(updatedBook, selectedStatus, false);
       } else {
-        // If the book is not saved, add to firestore
+        // If book is not saved, add to firestore
         await saveBookToFirestore(updatedBook, selectedStatus);
       }
 
@@ -105,9 +102,9 @@ export default function Home() {
 
   // Check if the book is already saved to firestore
   const bookSaved = (book) => {
-    return savedBooks.some((savedBook) => savedBook.key === book.key);
+    return savedBooks.some((savedBook) => savedBook.key === book.key && savedBook.status === selectedStatus);
   };
-
+  
   return (
     <main>
       <div className='top-bar'>
