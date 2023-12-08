@@ -17,6 +17,7 @@ const saveBookToFirestore = async (book, status, add = true) => {
   const userDoc = await getDoc(userDocRef);
 
   if (userDoc.exists()) {
+    console.log('User Document found:', userDoc.data());
     const savedBooks = userDoc.data().savedBooks || [];
 
     if (add) {
@@ -29,6 +30,7 @@ const saveBookToFirestore = async (book, status, add = true) => {
     }
 
     await setDoc(userDocRef, { savedBooks }, { merge: true });
+    console.log('User Document updated successfully.');
   } else {
     console.error('User Document not found.');
   }
