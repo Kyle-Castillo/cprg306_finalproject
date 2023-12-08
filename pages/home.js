@@ -28,6 +28,11 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    // When selectedStatus changes, update savedBooks
+    setSavedBooks([]);
+  }, [selectedStatus]);
+
   const fetchUpdatedBooks = async () => {
     try {
       const data = await fetchBooks(query);
@@ -104,7 +109,7 @@ export default function Home() {
   const bookSaved = (book) => {
     return savedBooks.some((savedBook) => savedBook.key === book.key && savedBook.status === selectedStatus);
   };
-  
+
   return (
     <main>
       <div className='top-bar'>
