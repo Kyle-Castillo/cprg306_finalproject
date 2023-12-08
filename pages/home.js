@@ -121,16 +121,19 @@ export default function Home() {
 
   return (
     <main>
-      <div className="top-bar bg-brown">
-        <div className="logo-text">
-          <h1 className="logo-text">Bookworm</h1>
-        </div>
-        <div className="top-menu">
-          <button className="quick-menu-button border-2 border-black bg-brown" onClick={goToProfile}>
-            Profile
-          </button>
-        </div>
+    <div className="top-bar flex justify-between items-center p-4" style={{backgroundColor: 'brown'}}>
+      <div className="logo-text">
+        <h1 className="logo-text">Bookworm</h1>
       </div>
+      <div className="top-menu flex space-x-4">
+        <button
+          className="quick-menu-button border-2 border-black bg-brown"
+          onClick={goToProfile}
+        >
+          Profile
+        </button>
+      </div>
+    </div>
       <div className="centered-container">
         <h1 className=" text-3x1">Welcome to Bookworm!</h1>
         <h2>Search for a book:</h2>
@@ -165,6 +168,7 @@ export default function Home() {
                   onClick={() =>
                     handleSaveBook(book, selectedStatus, setSavedBooks)
                   }
+                  className="bg-lightblue px-4 py-2 rounded-md ml-2"
                 >
                   {loading
                     ? "Processing..."
