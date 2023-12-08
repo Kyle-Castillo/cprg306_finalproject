@@ -16,14 +16,15 @@ const importBooksToFirestore = async (books) => {
       await setDoc(systemDocRef, { name: 'books' });
     }
 
-    // Iterate over the books and add them to Firestore
-    books.forEach(async (book) => {
+    // Use Promise.all with map for concurrent execution of addDoc
+    await Promise.all(books.map(async (book) => {
       await addDoc(booksCollection, book);
-    });
+    }));
 
     console.log('Books imported to Firestore successfully.');
   } catch (error) {
-    console.error('Error importing books to Firestore:', error);
+    console.error('Error importing books to Firestore:', error.message);
+    console.error(error.stack);
   }
 };
 
