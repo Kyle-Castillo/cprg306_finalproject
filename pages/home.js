@@ -121,17 +121,17 @@ export default function Home() {
 
   return (
     <main>
-    <div className="top-bar flex justify-between items-center p-4" style={{backgroundColor: 'brown'}}>
-      <div className="logo-text">
-        <h2 className="logo-text font-black">Bookworm</h2>
-      </div>
+    <div className="top-bar flex items-center p-4 mb-8" style={{ backgroundColor: 'brown' }}>
       <div className="top-menu flex space-x-4">
         <button
-          className="quick-menu-button border-2 border-black bg-brown"
+          className="quick-menu-button border-2 border-black bg-brown h-auto w-auto text-lg"
           onClick={goToProfile}
         >
           Profile
         </button>
+      </div>
+      <div className="logo-text">
+        <h2 className="logo-text font-black">Bookworm</h2>
       </div>
     </div>
       <div className="centered-container">
@@ -168,7 +168,7 @@ export default function Home() {
                   onClick={() =>
                     handleSaveBook(book, selectedStatus, setSavedBooks)
                   }
-                  className="bg-lightblue px-4 py-2 rounded-md ml-2"
+                  className="bg-blue-500text-white px-4 py-2 rounded-md"
                 >
                   {loading
                     ? "Processing..."
