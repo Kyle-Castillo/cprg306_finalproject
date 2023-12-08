@@ -19,13 +19,19 @@ const saveBookToFirestore = async (book, status, add = true) => {
       const savedBooks = userDoc.data().savedBooks || [];
 
       if (add) {
-        // Use arrayUnion to add the book if it doesn't exist in the array
-        await setDoc(userDocRef, { savedBooks: arrayUnion({ ...book, status }) }, { merge: true });
+        savedBooks.push({ ...book, status });
       } else {
-        // Use arrayRemove to remove the book from the array
-        await setDoc(userDocRef, { savedBooks: arrayRemove({ ...book, status }) }, { merge: true });
+        const indexToRemove = savedBooks.findIndex((savedBook) => savedBook.key === book.key);
+        if (indexToRemove !== -1) {
+          savedBooks.splice(indexToRemove, 1);
+        }
       }
 
+      // Update the state with the new savedBooks array
+      setSavedBooks(savedBooks);
+
+      // Update Firestore document
+      await setDoc(userDocRef, { savedBooks }, { merge: true });
       console.log('User Document updated successfully.');
     } else {
       throw new Error('User Document not found.');
