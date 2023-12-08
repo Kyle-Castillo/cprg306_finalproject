@@ -5,6 +5,13 @@ import firestore from "@/_utils/firebase";
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from "@/_utils/firebase";
 
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged, auth } from '@/_utils/firebase';
+import firestore from "@/_utils/firebase";
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from "@/_utils/firebase";
+
 export default function Home() {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -15,14 +22,16 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const user = await onAuthStateChanged(auth);
-      if (user) {
+      try {
+        const user = await onAuthStateChanged(auth);
         setUser(user);
 
-        // Fetch user data from Firestore
-        fetchUserData(user.uid);
-      } else {
-        setUser(null);
+        if (user) {
+          // Fetch user data from Firestore
+          fetchUserData(user.uid);
+        }
+      } catch (error) {
+        console.error('Error in onAuthStateChanged:', error.message);
       }
     };
 
@@ -30,18 +39,23 @@ export default function Home() {
   }, []);
 
   const fetchUserData = async (userId) => {
-    // Fetch user document from Firestore
-    const userDocRef = firestore.collection('users').doc(userId);
-    const userDoc = await userDocRef.get();
+    try {
+      // Fetch user document from Firestore
+      const userDocRef = firestore.collection('users').doc(userId);
+      const userDoc = await userDocRef.get();
 
-    if (userDoc.exists) {
-      const userData = userDoc.data();
-      setBooksRead(userData.booksRead || []);
-      setFavoriteBooks(userData.favoriteBooks || []);
-      setCurrentlyReading(userData.currentlyReading || []);
-      setPlanToRead(userData.planToRead || []);
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        setBooksRead(userData.booksRead || []);
+        setFavoriteBooks(userData.favoriteBooks || []);
+        setCurrentlyReading(userData.currentlyReading || []);
+        setPlanToRead(userData.planToRead || []);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error.message);
     }
   };
+
 
 
   return (
