@@ -1,7 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, auth, firestore } from '@/_utils/firebase';
+import { onAuthStateChanged, auth } from '@/_utils/firebase';
+import firestore from "@/_utils/firebase";
 
 export default function Home() {
   const router = useRouter();
@@ -60,7 +61,7 @@ export default function Home() {
         </div>
         <div className='user-data'>
           <div className='books-read-list'>
-            <h1 className='books-read'>You've finished reading:</h1>
+            <h1 className='books-read'>You&apos;ve finished reading:</h1>
             <ul>
               {booksRead.map((book, index) => (
                 <li key={index}>{book}</li>
