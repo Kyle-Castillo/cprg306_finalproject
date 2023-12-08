@@ -46,10 +46,10 @@ const Login = () => {
       </header>
       <div className='centered-container'>
         <h2 className=' text-2xl'>Login</h2>
-        <label className=' text-x1'>Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <label className=' text-xl'>Email:</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className=' pb-4' />
         <label className=' text-xl'>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className=' pb-4' />
         <button onClick={handleLogin} className=" bg-blue-500 p-4 rounded-xl text-xl ">Login</button>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}

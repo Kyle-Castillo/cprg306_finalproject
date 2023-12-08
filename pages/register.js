@@ -38,19 +38,20 @@ const Register = () => {
       <header style={{ padding: '1rem', backgroundColor: "brown" }}>
         <h2 className=" font-black">Bookworm</h2>
       </header>
-    <div>
+    <div className='centered-container'> 
       <h2 className=' text-2xl'>Register</h2>
-      <label className=' text-x1'>Email:</label>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <label className=' text-x1'>Password:</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <label className=' text-x1'>Confirm Password:</label>
+      <label className=' text-xl'>Email:</label>
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className=' pb-4'/>
+      <label className=' text-xl'>Password:</label>
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className=' pb-4' />
+      <label className=' text-xl'>Confirm Password:</label>
       <input
         type="password"
         value={passwordConfirmation}
         onChange={(e) => setPasswordConfirmation(e.target.value)}
+        className=' pb-4'
       />
-      <button onClick={handleRegister} className=" bg-blue-500 p-4 rounded-xl text-xl ">Register</button>
+      <button onClick={handleRegister} className=" bg-blue-500 p-4 rounded-xl text-xl">Register</button>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
