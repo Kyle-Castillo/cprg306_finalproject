@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged, auth } from '@/_utils/firebase';
 import firestore from "@/_utils/firebase";
+import { collection, getDocs, doc, getDoc, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { db, auth } from '@/_utils/firebase';
 
 export default function Profile() {
   const router = useRouter();
@@ -39,10 +41,10 @@ export default function Profile() {
   const fetchUserData = async (userId) => {
     try {
       // Fetch user document from Firestore
-      const userDocRef = firestore.collection('users').doc(userId);
-      const userDoc = await userDocRef.get();
-
-      if (userDoc.exists) {
+      const userDocRef = doc(db, 'users', userId);
+      const userDoc = await getDoc(userDocRef);
+  
+      if (userDoc.exists()) {
         const userData = userDoc.data();
         setBooksRead(userData.booksRead || []);
         setFavoriteBooks(userData.favoriteBooks || []);
