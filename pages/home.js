@@ -121,36 +121,36 @@ export default function Home() {
 
   return (
     <main>
-      <div className="top-bar">
+      <div className="top-bar bg-brown">
         <div className="logo-text">
           <h1 className="logo-text">Bookworm</h1>
         </div>
         <div className="top-menu">
-          <button className="quick-menu-button" onClick={goToProfile}>
+          <button className="quick-menu-button border-2 border-black bg-brown" onClick={goToProfile}>
             Profile
           </button>
         </div>
       </div>
       <div className="centered-container">
-        <h1>Welcome to Bookworm!</h1>
+        <h1 className=" text-3x1">Welcome to Bookworm!</h1>
         <h2>Search for a book:</h2>
-        <div>
+        <div className="flex items-center space-x-2">
           <input
             type="text"
             id="book-search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button onClick={handleSearch} disabled={loading}>
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md"  onClick={handleSearch} disabled={loading}>
             {loading ? "Searching for books..." : "Search"}
           </button>
         </div>
         {loading && <p>Loading...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
         {results && results.length > 0 ? (
-          <ul>
+          <ul className="flex flex-wrap justify-between">
             {results.map((book) => (
-              <li key={book.key}>
+              <li key={book.key} className="mt-4">
                 {book.title}
                 <select
                   value={selectedStatus}
