@@ -1,9 +1,4 @@
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from 'react';
-import { onAuthStateChanged, auth } from '@/_utils/firebase';
-import firestore from "@/_utils/firebase";
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from "@/_utils/firebase";
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from 'react';
