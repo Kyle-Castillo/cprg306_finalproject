@@ -1,19 +1,21 @@
-"use client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged, auth } from '@/_utils/firebase';
 import firestore from "@/_utils/firebase";
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from "@/_utils/firebase";
 
 export default function Home() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [booksRead, setBooksRead] = useState([]);
-  const [readingList, setReadingList] = useState([]);
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [currentlyReading, setCurrentlyReading] = useState([]);
   const [planToRead, setPlanToRead] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const fetchData = async () => {
+      const user = await onAuthStateChanged(auth);
       if (user) {
         setUser(user);
 
@@ -22,10 +24,9 @@ export default function Home() {
       } else {
         setUser(null);
       }
-    });
+    };
 
-    // Cleanup the subscription when the component unmounts
-    return () => unsubscribe();
+    fetchData();
   }, []);
 
   const fetchUserData = async (userId) => {
@@ -36,11 +37,12 @@ export default function Home() {
     if (userDoc.exists) {
       const userData = userDoc.data();
       setBooksRead(userData.booksRead || []);
-      setReadingList(userData.readingList || []);
+      setFavoriteBooks(userData.favoriteBooks || []);
       setCurrentlyReading(userData.currentlyReading || []);
       setPlanToRead(userData.planToRead || []);
     }
   };
+
 
   return (
     <main>
@@ -56,7 +58,7 @@ export default function Home() {
         <div className='user-profile'>
           <p className='user-name'>Name: {user ? user.email : 'Not logged in'}</p>
           <p className='user-books-read'>Books read: {booksRead.length}</p>
-          <p className='user-books-list'>Books in reading list: {readingList.length}</p>
+          <p className='user-books-list'>Books in Favorites: {favoriteBooks.length}</p>
           <p className='user-books-current'>Currently reading: {currentlyReading.length}</p>
         </div>
         <div className='user-data'>
