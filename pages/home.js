@@ -158,7 +158,7 @@ export default function Home() {
                 <option value="Already Read">Add to finished</option>
                 <option value="Currently Reading">Currently Reading</option>
               </select>
-              <button onClick={() => handleSaveBook(book, setSavedBooks)}>
+              <button onClick={() => handleSaveBook(book, selectedStatus, setSavedBooks)}>
   {loading ? 'Processing...' : (bookSaved(book) ? 'Remove' : 'Save')}
 </button>
             </li>
