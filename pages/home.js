@@ -3,6 +3,7 @@
 import { useState } from 'react' 
 import fetchBooks from './api/openLibrary';
 import saveBookToFirestore from '@/_utils/saveToFirestore';
+import importBooksToFirestore from '@/_utils/importBooksToFirestore';
 import { onAuthStateChanged, auth } from '@/_utils/firebase';
 import { useEffect } from 'react';
 
@@ -43,8 +44,10 @@ export default function Home() {
 
       if (!data || data.docs.length ===0 ) {
         setError('No books found!');
+      } else {
+        // Call the function to import books to Firestore
+        importBooksToFirestore(data.docs);
       }
-
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('An error occurred while fetching data.')
