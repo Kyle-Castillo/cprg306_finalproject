@@ -78,25 +78,19 @@ export default function Home() {
     }
   };
 
-  const handleSaveBook = async (book) => {
+  const handleSaveBook = (book) => {
     try {
       setLoading(true);
-  
-      const updatedBook = { ...book, status: selectedStatus };
-  
-      // Check if the book is already saved
-      const isBookSaved = bookSaved(updatedBook);
-  
-      if (isBookSaved) {
+
+      if (bookSaved(book)) {
         // If book was already saved, remove from firestore
-        await saveBookToFirestore(updatedBook, selectedStatus, false);
+        saveBookToFirestore(book, selectedStatus, false, setSavedBooks);
       } else {
         // If book is not saved, add to firestore
-        await saveBookToFirestore(updatedBook, selectedStatus);
+        saveBookToFirestore(book, selectedStatus, true, setSavedBooks);
       }
-  
-      // Fetch updated books and update the results state
-      await fetchUpdatedBooks();
+
+      fetchUpdatedBooks();
     } catch (error) {
       console.error('Error saving/removing book:', error);
       setError('An error occurred while saving/removing the book.');
