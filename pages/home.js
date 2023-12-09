@@ -126,7 +126,7 @@ export default function Home() {
         style={{ backgroundColor: "brown" }}
       >
         <div className="logo-text">
-          <h2 className="logo-text font-black ml-1">Bookworm</h2>
+          <h2 className="logo-text font-black mr-1">Bookworm</h2>
         </div>
         <div className="top-menu flex space-x-4">
           <button

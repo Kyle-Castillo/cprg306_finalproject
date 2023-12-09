@@ -69,7 +69,7 @@ export default function Profile() {
         style={{ backgroundColor: "brown" }}
       >
         <div className='logo-text'>
-        <h2 className="logo-text font-black ml-1">Bookworm</h2>
+        <h2 className="logo-text font-black mr-1">Bookworm</h2>
         </div>
         <div className='top-menu flex space-x-4"'>
           <button className='quick-menu-button border-x border-black bg-brown h-full w-full text-lg' onClick={() => router.push('/home')}>Home</button>
@@ -86,7 +86,7 @@ export default function Profile() {
         </div>
         <div className='user-data'>
           <div className="books-read-list">
-            <h1 className="books-read">You&apos;ve finished reading:</h1>
+            <h1 className="books-read text-lg">You&apos;ve finished reading:</h1>
             <ul>
               {booksRead.map((book, index) => (
                 <li key={index}>{book.title} by {book.author_name}</li>
@@ -94,7 +94,7 @@ export default function Profile() {
             </ul>
           </div>
           <div className="books-read-list">
-            <h1 className="books-read">You loved Reading:</h1>
+            <h1 className="books-read text-lg">You loved Reading:</h1>
             <ul>
               {favoriteBooks.map((book, index) => (
                 <li key={index}>{book.title} by {book.author_name}</li>
@@ -102,7 +102,7 @@ export default function Profile() {
             </ul>
           </div>
           <div className="books-read-list">
-            <h1 className="books-read">You&apos;re currently reading:</h1>
+            <h1 className="books-read text-lg">You&apos;re currently reading:</h1>
             <ul>
               {currentlyReading.map((book, index) => (
                 <li key={index}>{book.title} by {book.author_name}</li>
@@ -110,7 +110,7 @@ export default function Profile() {
             </ul>
           </div>
           <div className="books-read-list">
-            <h1 className="books-read">You plan to read:</h1>
+            <h1 className="books-read text-lg">You plan to read:</h1>
             <ul>
               {planToRead.map((book, index) => (
                 <li key={index}>{book.title} by {book.author_name}</li>
