@@ -64,27 +64,47 @@ export default function Profile() {
 
   return (
     <main>
-      <div className='top-bar'>
+      <div
+        className="top-bar flex items-center p-4 mb-8"
+        style={{ backgroundColor: "brown" }}
+      >
         <div className='logo-text'>
-          <h1 className='logo-text'>Bookworm</h1>
+        <h2 className="logo-text font-black ml-1">Bookworm</h2>
         </div>
-        <div className='top-menu'>
-          <button className='quick-menu-button' onClick={() => router.push('/home')}>Home</button>
+        <div className='top-menu flex space-x-4"'>
+          <button className='quick-menu-button border-x border-black bg-brown h-full w-full text-lg' onClick={() => router.push('/home')}>Home</button>
         </div>
       </div>
       <div className='main-body'>
         <div className='user-profile'>
           <p className='user-name'>Name: {user ? user.email : 'Not logged in'}</p>
-          <p className='user-books-read'>Books read: {booksRead.length}</p>
-          <p className='user-books-list'>Books in Favorites: {favoriteBooks.length}</p>
-          <p className='user-books-current'>Currently reading: {currentlyReading.length}</p>
-          <p className='user-total-books'>Total books: {getTotalBooksCount()}</p>
+          <p className='user-books'>Books read: {booksRead.length}</p>
+          <p className='user-books'>Books in Favorites: {favoriteBooks.length}</p>
+          <p className='user-books'>Currently reading: {currentlyReading.length}</p>
+          <p className='user-books'>Plan To Read: {planToRead.length}</p>
+          <p className='user-total'>Total books: {getTotalBooksCount()}</p>
         </div>
         <div className='user-data'>
           <div className='books-read-list'>
             <h1 className='books-read'>You&apos;ve finished reading:</h1>
             <ul>
               {booksRead.map((book, index) => (
+                <li key={index}>{book.title} by {book.author_name}</li>
+              ))}
+            </ul>
+          </div>
+          <div className='books-read-list'>
+            <h1 className='books-read'>You loved Reading:</h1>
+            <ul>
+              {favoriteBooks.map((book, index) => (
+                <li key={index}>{book.title} by {book.author_name}</li>
+              ))}
+            </ul>
+          </div>
+          <div className='books-read-list'>
+            <h1 className='books-read'>You&apos;re currently reading:</h1>
+            <ul>
+              {currentlyReading.map((book, index) => (
                 <li key={index}>{book.title} by {book.author_name}</li>
               ))}
             </ul>

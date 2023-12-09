@@ -1,7 +1,7 @@
 /* globals.css */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 html,
 body,
@@ -10,22 +10,44 @@ body,
 }
 
 .centered-container {
-    text-align: center;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 50%;
-    width: 50%;
-    background-color: lightblue;
-    border-radius: 30px;
-    padding: 20px;
-    
-  }
+  text-align: center;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  width: 50%;
+  background-color: lightblue;
+  border-radius: 30px;
+  padding: 20px;
+}
 
 h2 {
-  font-size: 1.875rem; 
-  font-weight: 700; 
-  color: #2d3748; 
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.center-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 2rem); /* Adjust as needed */
+  background-color: lightblue;
+}
+
+.user-name {
+  margin-bottom: 0.5rem;
+}
+
+.books-read-list {
+  margin-bottom: 1.5rem;
+}
+
+.books-read {
+  margin-bottom: 1rem;
+}
+.books-read-list ul li {
+  margin-bottom: 0.5rem;
 }
